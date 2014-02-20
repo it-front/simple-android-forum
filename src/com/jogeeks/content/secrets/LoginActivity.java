@@ -1,49 +1,57 @@
 package com.jogeeks.content.secrets;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Background;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
-import org.androidannotations.annotations.rest.RestService;
 
 import android.app.Activity;
-import android.util.Log;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.jogeeks.wordpress.WPLogin;
 
-@EActivity(R.layout.activity_login)
-@OptionsMenu(R.menu.login)
-public class LoginActivity extends Activity {
+public class LoginActivity extends Activity implements OnClickListener {
 
-	@RestService
-	MyRestClient myRestClient;
+	//private EditText usernameInput;
+	private EditText passwordInput;
+	private Button loginButton;
 
-	@ViewById(R.id.username)
-	EditText usernameInput;
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_login);
 
-	@ViewById(R.id.password)
-	EditText passwordInput;
+		// References
+		EditText usernameInput = (EditText) findViewById(R.id.username);
+		passwordInput = (EditText) findViewById(R.id.password);
+		loginButton = (Button) findViewById(R.id.login);
 
-	@ViewById(R.id.login)
-	Button loginButton;
-
-	@Click
-	void login() {
-		new WPLogin(this, "firas", "123123", SecretsActivity.class);
+		// OnClickListener
+		loginButton.setOnClickListener(this);
+		
+		
 	}
 
-	@AfterViews
-	void afterViews() {
-		getPostsAsync("", "");
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.login, menu);
+		return true;
 	}
 
-	@Background
-	void getPostsAsync(String searchString, String userId) {
-		Log.d("REST", myRestClient.getRecentPosts().toString());
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.login:
+			new WPLogin(this, "firas", "123123", SecretsActivity.class);
+			break;
+
+		default:
+			break;
+		}
 	}
 
 }

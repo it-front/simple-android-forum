@@ -21,7 +21,7 @@ import android.widget.HeaderViewListAdapter;
 import com.jogeeks.paginglistview.MyPagingAdaper;
 import com.jogeeks.paginglistview.PagingListView;
 import com.jogeeks.paginglistview.SafeAsyncTask;
-import com.jogeeks.wordpress.WPLoadPosts;
+import com.jogeeks.wordpress.Wordpress;
 
 @SuppressLint("NewApi")
 public class SecretsActivity extends Activity {
@@ -53,7 +53,7 @@ public class SecretsActivity extends Activity {
 
 		StrictMode.setThreadPolicy(policy);
 
-		postsData = new WPLoadPosts(this).getRecentPosts();
+		postsData = new Wordpress(null,null).getRecentPostsJSON(getApplicationContext());
 
 		listView = (PagingListView) findViewById(R.id.paging_list_view);
 
@@ -110,8 +110,8 @@ public class SecretsActivity extends Activity {
 			count_total = postsData.getInt("count_total");
 			pages = postsData.getInt("pages");
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 
 		posts = new HashMap<Integer, ArrayList<String>>();

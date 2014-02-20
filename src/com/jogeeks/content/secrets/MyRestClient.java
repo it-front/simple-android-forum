@@ -12,5 +12,9 @@ public interface MyRestClient  {
 	
 	@Get("/get_recent_posts")
     ResponseEntity<JsonObject> getRecentPosts();
+	
+	
+	
+	
 
 }
