@@ -53,7 +53,7 @@ public class SecretsActivity extends Activity {
 
 		StrictMode.setThreadPolicy(policy);
 
-		postsData = new Wordpress(null,null).getRecentPostsJSON(getApplicationContext());
+		postsData = new Wordpress(this).getRecentPostsJSON(getApplicationContext());
 
 		listView = (PagingListView) findViewById(R.id.paging_list_view);
 

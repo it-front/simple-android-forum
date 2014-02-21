@@ -1,7 +1,5 @@
 package com.jogeeks.content.secrets;
 
-import org.androidannotations.annotations.ViewById;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
