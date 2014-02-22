@@ -12,6 +12,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.jogeeks.wordpress.OnLoginListener;
 import com.jogeeks.wordpress.WPSession;
 import com.jogeeks.wordpress.Wordpress;
 
@@ -56,9 +57,25 @@ public class LoginActivity extends Activity implements OnClickListener  {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.login:
-			wpSession = wp.Login(usernameInput.getText().toString(), passwordInput.getText().toString());
-			int result = wpSession.getStatus();
-			Log.d("Error", Integer.toString(result));
+
+			wp.setOnLoginListener(new OnLoginListener() {
+				
+				@Override
+				public void OnLoginSuccess(WPSession session) {
+					Log.d("Success", Integer.toString(session.getStatus()));
+				}
+				
+				@Override
+				public void OnLoginFailure(WPSession session) {
+					Log.d("Failure", Integer.toString(session.getStatus()));					
+				}
+			});
+			
+			Bundle userData = new Bundle();
+			userData.putString("username", usernameInput.getText().toString());
+			userData.putString("password", passwordInput.getText().toString());
+
+			wp.Login(userData);
 			break;
 
 		default:
