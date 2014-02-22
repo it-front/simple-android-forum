@@ -1,7 +1,6 @@
 package com.jogeeks.paginglistview;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,8 +30,8 @@ public class MyPagingAdaper extends PagingBaseAdapter<String> {
 	String time = null;
 	String comments = null;
 	String tags = null;
-	
-	public MyPagingAdaper(Activity a, ArrayList<Integer> i ,JSONObject p) {
+
+	public MyPagingAdaper(Activity a, ArrayList<Integer> i, JSONObject p) {
 		activity = a;
 		posts = p;
 		ids = i;
@@ -73,7 +72,6 @@ public class MyPagingAdaper extends PagingBaseAdapter<String> {
 			content = stripHtml(posts.getJSONArray("posts")
 					.getJSONObject(position).getString("excerpt"));
 
-			
 			time = posts.getJSONArray("posts").getJSONObject(position)
 					.getString("date");
 		} catch (JSONException e) {
@@ -89,29 +87,42 @@ public class MyPagingAdaper extends PagingBaseAdapter<String> {
 			imageURL = "https://fbcdn-sphotos-g-a.akamaihd.net/hphotos-ak-prn2/t1/1795688_10152227451270941_453036500_n.jpg";
 		}
 
-		//tags
+		// tags
 		try {
-			tags = posts.getJSONArray("posts").getJSONObject(position)
-					.getJSONArray("tags").getJSONObject(0)
-					.getString("title").concat(", " + posts.getJSONArray("posts").getJSONObject(position)
-					.getJSONArray("tags").getJSONObject(1)
-					.getString("title").concat(", " + posts.getJSONArray("posts").getJSONObject(position)
-					.getJSONArray("tags").getJSONObject(2)
-					.getString("title")));
+			tags = posts
+					.getJSONArray("posts")
+					.getJSONObject(position)
+					.getJSONArray("tags")
+					.getJSONObject(0)
+					.getString("title")
+					.concat(", "
+							+ posts.getJSONArray("posts")
+									.getJSONObject(position)
+									.getJSONArray("tags")
+									.getJSONObject(1)
+									.getString("title")
+									.concat(", "
+											+ posts.getJSONArray("posts")
+													.getJSONObject(position)
+													.getJSONArray("tags")
+													.getJSONObject(2)
+													.getString("title")));
 		} catch (JSONException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
-		//comments
+
+		// comments
 		try {
-			comments = Integer.toString(posts.getJSONArray("posts").getJSONObject(position)
-					.getJSONArray("comments").length()).concat(" Comments");
+			comments = Integer.toString(
+					posts.getJSONArray("posts").getJSONObject(position)
+							.getJSONArray("comments").length()).concat(
+					" Comments");
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		if (convertView == null)
 			vi = inflater.inflate(R.layout.post_item, null);
 

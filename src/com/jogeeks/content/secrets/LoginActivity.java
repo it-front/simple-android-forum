@@ -1,8 +1,7 @@
 package com.jogeeks.content.secrets;
 
-import org.json.JSONException;
-
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
@@ -16,33 +15,37 @@ import com.jogeeks.wordpress.OnLoginListener;
 import com.jogeeks.wordpress.WPSession;
 import com.jogeeks.wordpress.Wordpress;
 
-public class LoginActivity extends Activity implements OnClickListener  {
+public class LoginActivity extends Activity implements OnClickListener {
 
 	private EditText usernameInput;
 	private EditText passwordInput;
 	private Button loginButton;
+	private Button signupButton;
+
 	private Wordpress wp;
 	private WPSession wpSession;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 
 		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
-		.permitAll().build();
+				.permitAll().build();
 
 		StrictMode.setThreadPolicy(policy);
 
 		// References
-	    usernameInput = (EditText) findViewById(R.id.username);
+		usernameInput = (EditText) findViewById(R.id.username);
 		passwordInput = (EditText) findViewById(R.id.password);
 		loginButton = (Button) findViewById(R.id.login);
+		signupButton = (Button) findViewById(R.id.signup);
 
 		// OnClickListener
 		loginButton.setOnClickListener(this);
-		
-			wp = new Wordpress(this);
+		signupButton.setOnClickListener(this);
+
+		wp = new Wordpress(this);
 
 	}
 
@@ -64,20 +67,24 @@ public class LoginActivity extends Activity implements OnClickListener  {
 				public void OnLoginSuccess(WPSession session) {
 					Log.d("Success", Integer.toString(session.getStatus()));
 				}
-				
+
 				@Override
 				public void OnLoginFailure(WPSession session) {
-					Log.d("Failure", Integer.toString(session.getStatus()));					
+					Log.d("Failure", Integer.toString(session.getStatus()));
 				}
 			});
-			
+
 			Bundle userData = new Bundle();
 			userData.putString("username", usernameInput.getText().toString());
 			userData.putString("password", passwordInput.getText().toString());
 
-			wp.Login(userData);
+			wp.login(userData);
 			break;
 
+		case R.id.signup:
+			startActivity(new Intent(this, SignupActivity.class));
+			finish();
+			break;
 		default:
 			break;
 		}

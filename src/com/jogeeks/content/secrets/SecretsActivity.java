@@ -74,7 +74,7 @@ public class SecretsActivity extends Activity {
 
 		clearData();
 		new CountryAsyncTask(true).execute();
-		
+
 		listView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -82,7 +82,7 @@ public class SecretsActivity extends Activity {
 					long arg3) {
 				Log.d("SAD", Long.toString(adapter.getItemId(arg2)));
 			}
-		} );
+		});
 	}
 
 	public void createProgressDialog() {
@@ -122,11 +122,8 @@ public class SecretsActivity extends Activity {
 			for (postCounter = postCounter; postCounter <= count; postCounter++) {
 				try {
 					int id = Integer.parseInt(postsData.getJSONArray("posts")
-							.getJSONObject(postCounter)
-							.getString("id"));
-					posts.get(i)
-							.add(postCounter,
-									Integer.toString(id));
+							.getJSONObject(postCounter).getString("id"));
+					posts.get(i).add(postCounter, Integer.toString(id));
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
