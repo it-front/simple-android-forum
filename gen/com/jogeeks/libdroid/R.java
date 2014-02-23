@@ -34,6 +34,7 @@ public final class R {
 		public static final int password = 0x7f040002;
 		public static final int registerNonce = 0x7f040006;
 		public static final int register_request = 0x7f040008;
+		public static final int report_comment = 0x7f040009;
 		public static final int url = 0x7f040003;
 		public static final int username = 0x7f040001;
 	}

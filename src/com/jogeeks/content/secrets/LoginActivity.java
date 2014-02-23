@@ -48,11 +48,11 @@ public class LoginActivity extends Activity implements OnClickListener {
 
 		wp = new Wordpress(this);
 
-		wp.getPosts(new WordpressResponseHandler<WPPost>() {
+		wp.getPosts(new WordpressResponseHandler<WPPost>(){
 			@Override
-			public void onPostsRecived(ArrayList<WPPost> posts) {
-				Log.d("test blah blah" , posts.toString());
-				super.onPostsRecived(posts);
+			public void onPostsRecieved(ArrayList<WPPost> posts) {
+				// you can print the posts here
+				super.onPostsRecieved(posts);
 			}
 		});
 
