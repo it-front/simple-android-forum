@@ -10,6 +10,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.provider.UserDictionary.Words;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -100,21 +101,20 @@ public class LoginActivity extends Activity implements OnClickListener {
 
 					String errorMsg;
 
-					
 					switch (session.getStatus()) {
 					case Wordpress.LOGIN_FAILED:
 						errorMsg = "check internet connection or server availability.";
 						break;
 
-					case Wordpress.USER_NAME_ERROR:
+					case Wordpress.LOGIN_USER_NAME_ERROR:
 						errorMsg = "invalid user name,";
 						break;
 						
-					case Wordpress.PASSWORD_ERROR:
+					case Wordpress.LOGIN_PASSWORD_ERROR:
 						errorMsg = "Password cannot be empty";
 						break;
 						
-					case Wordpress.CHECK_PASSWORD_AND_OR_USERNAME:
+					case Wordpress.LOGIN_CHECK_PASSWORD_AND_OR_USERNAME:
 						errorMsg = "please check your username and/or password.";
 						break;
 					
