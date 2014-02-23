@@ -60,6 +60,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 			@Override
 			public void onPostsRecieved(ArrayList<WPPost> posts) {
 				// you can print the posts here
+				Log.d("balh",posts.get(0).getTitle());
 				super.onPostsRecieved(posts);
 			}
 		});
