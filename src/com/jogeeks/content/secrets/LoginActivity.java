@@ -6,6 +6,7 @@ import org.apache.http.Header;
 import org.json.JSONArray;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -15,6 +16,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Switch;
+import android.widget.Toast;
 
 import com.jogeeks.wordpress.OnLoginListener;
 import com.jogeeks.wordpress.WPPost;
@@ -28,7 +31,8 @@ public class LoginActivity extends Activity implements OnClickListener {
 	private EditText passwordInput;
 	private Button loginButton;
 	private Button signupButton;
-
+	private ProgressDialog loginProgress;
+	
 	private Wordpress wp;
 	private WPSession wpSession;
 
@@ -36,6 +40,9 @@ public class LoginActivity extends Activity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
+		//inits
+		loginProgress = new ProgressDialog(this);
+		
 		// References
 		usernameInput = (EditText) findViewById(R.id.username);
 		passwordInput = (EditText) findViewById(R.id.password);
@@ -73,20 +80,60 @@ public class LoginActivity extends Activity implements OnClickListener {
 			wp.setOnLoginListener(new OnLoginListener() {
 
 				@Override
+				public void OnLoginStart() {
+					loginProgress.setTitle("Please wait");
+					loginProgress.setMessage("Logging you in");
+					loginProgress.show();
+				}
+				
+				@Override
 				public void OnLoginSuccess(WPSession session) {
-					Log.d("Success", Integer.toString(session.getStatus()));
+					loginProgress.dismiss();
+					Toast.makeText(getApplicationContext(), "Welcome back " +
+					session.getDisplayname() +
+					", you've been succesfully logged in", Toast.LENGTH_LONG).show();
 				}
 
 				@Override
 				public void OnLoginFailure(WPSession session) {
-					Log.d("Failure", Integer.toString(session.getStatus()));
+					loginProgress.dismiss();
+
+					String errorMsg;
+
+					
+					switch (session.getStatus()) {
+					case Wordpress.LOGIN_FAILED:
+						errorMsg = "check internet connection or server availability.";
+						break;
+
+					case Wordpress.USER_NAME_ERROR:
+						errorMsg = "invalid user name,";
+						break;
+						
+					case Wordpress.PASSWORD_ERROR:
+						errorMsg = "Password cannot be empty";
+						break;
+						
+					case Wordpress.CHECK_PASSWORD_AND_OR_USERNAME:
+						errorMsg = "please check your username and/or password.";
+						break;
+					
+					default:
+						errorMsg = "check internet connection or server availability.";
+						break;
+					}
+					
+					Toast.makeText(getApplicationContext(), "Login failed with error code :\"" +
+							Integer.toString(session.getStatus())+"\" " +
+							errorMsg, Toast.LENGTH_LONG).show();
 				}
 			});
 
 			Bundle userData = new Bundle();
 			userData.putString("username", usernameInput.getText().toString());
 			userData.putString("password", passwordInput.getText().toString());
-
+			wp.login(userData);
+			
 			break;
 
 		case R.id.signup:

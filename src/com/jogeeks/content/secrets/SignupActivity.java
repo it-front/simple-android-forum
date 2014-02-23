@@ -45,6 +45,12 @@ public class SignupActivity extends Activity implements OnClickListener, OnRegis
 	public void OnRegisterFailure(int error) {
 		Log.d("Registration Failed", Integer.toString(error));		
 	}
+	
+	@Override
+	public void onRegisterStart() {
+		// TODO Auto-generated method stub
+		
+	}
 
 	@Override
 	public void onClick(View v) {
@@ -65,4 +71,6 @@ public class SignupActivity extends Activity implements OnClickListener, OnRegis
 			break;
 		}
 	}
+
+
 }
