@@ -1,5 +1,10 @@
 package com.jogeeks.content.secrets;
 
+import java.util.ArrayList;
+
+import org.apache.http.Header;
+import org.json.JSONArray;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,8 +17,10 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.jogeeks.wordpress.OnLoginListener;
+import com.jogeeks.wordpress.WPPost;
 import com.jogeeks.wordpress.WPSession;
 import com.jogeeks.wordpress.Wordpress;
+import com.jogeeks.wordpress.WordpressResponseHandler;
 
 public class LoginActivity extends Activity implements OnClickListener {
 
@@ -29,12 +36,6 @@ public class LoginActivity extends Activity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
-
-		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
-				.permitAll().build();
-
-		StrictMode.setThreadPolicy(policy);
-
 		// References
 		usernameInput = (EditText) findViewById(R.id.username);
 		passwordInput = (EditText) findViewById(R.id.password);
@@ -46,6 +47,14 @@ public class LoginActivity extends Activity implements OnClickListener {
 		signupButton.setOnClickListener(this);
 
 		wp = new Wordpress(this);
+
+		wp.getPosts(new WordpressResponseHandler<WPPost>() {
+			@Override
+			public void onPostsRecived(ArrayList<WPPost> posts) {
+				Log.d("test blah blah" , posts.toString());
+				super.onPostsRecived(posts);
+			}
+		});
 
 	}
 
@@ -62,7 +71,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 		case R.id.login:
 
 			wp.setOnLoginListener(new OnLoginListener() {
-				
+
 				@Override
 				public void OnLoginSuccess(WPSession session) {
 					Log.d("Success", Integer.toString(session.getStatus()));
@@ -78,7 +87,6 @@ public class LoginActivity extends Activity implements OnClickListener {
 			userData.putString("username", usernameInput.getText().toString());
 			userData.putString("password", passwordInput.getText().toString());
 
-			wp.login(userData);
 			break;
 
 		case R.id.signup:
