@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -55,7 +56,8 @@ public class LoginActivity extends Activity implements OnClickListener {
 		signupButton.setOnClickListener(this);
 
 		wp = new Wordpress(this);
-
+		/*************************tests*******************/
+		/*******************get posts*******************/
 		wp.getPosts(new WordpressResponseHandler<WPPost>(){
 			@Override
 			public void onPostsRecieved(ArrayList<WPPost> posts) {
@@ -64,6 +66,54 @@ public class LoginActivity extends Activity implements OnClickListener {
 				super.onPostsRecieved(posts);
 			}
 		});
+		wp.getRecentPosts(new WordpressResponseHandler<WPPost>(){
+			@Override
+			public void onPostsRecieved(ArrayList<WPPost> posts) {
+				// you can print the posts here
+				Log.d("balh",posts.get(0).getTitle());
+				super.onPostsRecieved(posts);
+			}
+		});
+		
+		wp.getPostsByAuthor(1,new WordpressResponseHandler<WPPost>(){
+			@Override
+			public void onPostsRecieved(ArrayList<WPPost> posts) {
+				// you can print the posts here
+				Log.d("balh",posts.get(0).getTitle());
+				super.onPostsRecieved(posts);
+			}
+		});
+		
+		wp.getPostsByCategory(1 , new WordpressResponseHandler<WPPost>(){
+			@Override
+			public void onPostsRecieved(ArrayList<WPPost> posts) {
+				// you can print the posts here
+				Log.d("balh",posts.get(0).getTitle());
+				super.onPostsRecieved(posts);
+			}
+		});
+		wp.getPostsBySearch("hello",new WordpressResponseHandler<WPPost>(){
+			@Override
+			public void onPostsRecieved(ArrayList<WPPost> posts) {
+				// you can print the posts here
+				Log.d("balh",posts.get(0).getTitle());
+				super.onPostsRecieved(posts);
+			}
+		});
+		
+		WPPost post = new WPPost();
+		post.setTitle("hello this is a test of create post");
+		post.setContent("this is the content for the test");
+		
+		
+		/*wp.createPost(post, 1, "publish", new WordpressResponseHandler<WPPost>(){
+			@Override
+			public void onPostCreated(WPPost post) {
+				Log.d("post", post.getTitle());
+				super.onPostCreated(post);
+			}
+		});
+		*/
 
 	}
 

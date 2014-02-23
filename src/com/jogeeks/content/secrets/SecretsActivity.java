@@ -48,12 +48,9 @@ public class SecretsActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_secrets);
 
-		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
-				.permitAll().build();
 
-		StrictMode.setThreadPolicy(policy);
-
-		postsData = new Wordpress(this).getRecentPostsJSON();
+		//TODO implement this to show data into the listview
+		//postsData = new Wordpress(this).getRecentPostsJSON();
 
 		listView = (PagingListView) findViewById(R.id.paging_list_view);
 
